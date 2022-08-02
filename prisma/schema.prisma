@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-arm64-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  role          String?
+  accessToken   String?
+  stockRequests StockRequest[]
+}
+
+model StockRequest {
+  id     Int      @id @default(autoincrement())
+  date   DateTime @default(now())
+  name   String?
+  symbol String?
+  open   Float?
+  high   Float?
+  low    Float?
+  close  Float?
+  user  User?     @relation(fields: [userId], references: [id])
+  userId Int 
+}

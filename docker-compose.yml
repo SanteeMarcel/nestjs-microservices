@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  api-service:
+    container_name: api_service
+    image: service-dev:1.0.0
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    command: npm run start api-service
+    ports:
+      - 3001:3001
+    networks:
+      - services-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+  stock-service:
+    container_name: stock_service
+    image: service-dev:1.0.0
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    command: npm run start stock-service
+    networks:
+      - services-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+networks:
+  services-network:
+    driver: bridge
