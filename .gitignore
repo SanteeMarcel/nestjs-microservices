@@ -125,3 +125,5 @@ dist
 
 # sonar-qube
 .scannerwork
+
+.DS_Store
